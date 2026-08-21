@@ -155,8 +155,10 @@ def format_rate_message(currency_code: str) -> str:
         note = "\n⚠️ USDT nu e cotat de bănci — se arată cursul USD (referință, 1 USDT ≈ 1 USD)."
 
     data = get_rate_for_currency(lookup_code)
+    from datetime import timedelta
 
-    lines = [f"💱 Curs {currency_code}/MDL — {time.strftime('%d.%m.%Y %H:%M')}\n"]
+    lines = [f"💱 Curs {currency_code}/MDL – {(time + timedelta(hours=3)).strftime('%d.%m.%Y %H:%M')}\n"]
+   #lines = [f"💱 Curs {currency_code}/MDL — {time.strftime('%d.%m.%Y %H:%M')+3}\n"]
     any_found = False
     for key in ("maib", "micb", "victoriabank", "fincombank"):
         name, buy, sell = data[key]
