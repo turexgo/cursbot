@@ -161,7 +161,7 @@ def format_rate_message(currency_code: str) -> str:
     # Dacă obții ora curentă, folosește datetime:
    current_time = datetime.now() + timedelta(hours=3)
 
-    lines = [f"💱 Curs {currency_code}/MDL – {current_time.strftime('%d.%m.%Y %H:%M')}\n"]
+lines = [f"💱 Curs {currency_code}/MDL – {current_time.strftime('%d.%m.%Y %H:%M')}\n"]
     #lines = [f"💱 Curs {currency_code}/MDL – {(time + timedelta(hours=3)).strftime('%d.%m.%Y %H:%M')}\n"]
    #lines = [f"💱 Curs {currency_code}/MDL — {time.strftime('%d.%m.%Y %H:%M')+3}\n"]
     any_found = False
