@@ -13,6 +13,9 @@ de HTTPS sau de webhook. Singura cerință e ca procesul să rămână pornit
 
 import logging
 import os
+import threading
+import asyncio
+from flask import Flask
 
 from telegram import ReplyKeyboardMarkup, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
@@ -23,6 +26,17 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 logger = logging.getLogger(__name__)
 
 TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+
+# Mini-server web Flask pentru a păstra serviciul treaz pe Render cu UptimeRobot
+web_app = Flask(__name__)
+
+@web_app.route("/")
+def index():
+    return "Botul este activ!"
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    web_app.run(host="0.0.0.0", port=port)
 
 # Butoanele afișate pe ecran (tastatura de jos din Telegram)
 KEYBOARD = ReplyKeyboardMarkup(
@@ -67,11 +81,14 @@ async def handle_currency(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await update.message.reply_text(message, reply_markup=KEYBOARD)
 
 
-import asyncio  # Asigură-te că ai importat asyncio la începutul fișierului
-
 def main() -> None:
     if not TOKEN:
         raise SystemExit("Setează variabila de mediu TELEGRAM_BOT_TOKEN cu token-ul de la @BotFather.")
+
+    # Pornim serverul web Flask în fundal pe un alt fir (thread)
+    t = threading.Thread(target=run_web, daemon=True)
+    t.start()
+    logger.info("Serverul web de fundal a pornit.")
 
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
