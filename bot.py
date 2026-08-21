@@ -27,7 +27,7 @@ TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 # Butoanele afișate pe ecran (tastatura de jos din Telegram)
 KEYBOARD = ReplyKeyboardMarkup(
     [
-        ["EUR", "USD", "USDT"],
+        ["EUR", "USD"],
         ["RON", "GBP", "RUB"],
     ],
     resize_keyboard=True,
@@ -35,13 +35,13 @@ KEYBOARD = ReplyKeyboardMarkup(
 
 # valute acceptate ca text tastat, chiar dacă nu au buton dedicat
 KNOWN_CODES = {
-    "EUR", "USD", "USDT", "RON", "GBP", "RUB", "UAH", "CHF", "TRY",
+    "EUR", "USD", "RON", "GBP", "RUB", "UAH", "CHF", "TRY",
 }
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        "Salut! Apasă un buton sau scrie codul valutei (ex: EUR, USD, USDT) "
+        "Salut! Apasă un buton sau scrie codul valutei (ex: EUR, USD) "
         "ca să vezi cursul de cumpărare/vânzare la MAIB, MICB, Victoriabank și FinComBank.",
         reply_markup=KEYBOARD,
     )
