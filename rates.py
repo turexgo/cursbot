@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 # ---------------------------------------------------------------------------
 BANKS = {
     "maib": ("MAIB", "moldova-agroindbank"),
-    "micb": ("MICB (Moldindconbank)", "moldindconbank"),
+    "micb": ("MICB", "moldindconbank"),
     "victoriabank": ("Victoriabank", "victoriabank"),
     "fincombank": ("FinComBank", "fincombank"),
 }
@@ -162,7 +162,7 @@ def format_rate_message(currency_code: str) -> str:
         name, buy, sell = data[key]
         if isinstance(buy, float):
             any_found = True
-            lines.append(f"🏦 {name}: C {buy:.2f}  /  V {sell:.2f}")
+            lines.append(f"🏦 {name}:  {buy:.2f}  /  {sell:.2f}")
         elif buy == "eroare":
             lines.append(f"🏦 {name}: indisponibil momentan")
         else:
