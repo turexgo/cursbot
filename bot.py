@@ -67,6 +67,8 @@ async def handle_currency(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await update.message.reply_text(message, reply_markup=KEYBOARD)
 
 
+import asyncio  # Asigură-te că ai importat asyncio la începutul fișierului
+
 def main() -> None:
     if not TOKEN:
         raise SystemExit("Setează variabila de mediu TELEGRAM_BOT_TOKEN cu token-ul de la @BotFather.")
@@ -76,8 +78,15 @@ def main() -> None:
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_currency))
 
     logger.info("Bot pornit — polling...")
+    
+    # Soluție sigură pentru orice versiune de Python pe servere cloud
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
     app.run_polling(allowed_updates=Update.ALL_TYPES)
-
 
 if __name__ == "__main__":
     main()
