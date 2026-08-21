@@ -162,7 +162,7 @@ def format_rate_message(currency_code: str) -> str:
         name, buy, sell = data[key]
         if isinstance(buy, float):
             any_found = True
-            lines.append(f"🏦 {name}: cumpără {buy:.2f}  /  vinde {sell:.2f}")
+            lines.append(f"🏦 {name}: C {buy:.2f}  /  V {sell:.2f}")
         elif buy == "eroare":
             lines.append(f"🏦 {name}: indisponibil momentan")
         else:
